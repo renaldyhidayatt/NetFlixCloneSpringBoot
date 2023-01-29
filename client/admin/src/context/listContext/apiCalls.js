@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   createListFailure,
   createListStart,
@@ -9,14 +9,14 @@ import {
   getListsFailure,
   getListsStart,
   getListsSuccess,
-} from "./ListActions";
+} from './ListActions';
 
 export const getLists = async (dispatch) => {
   dispatch(getListsStart());
   try {
-    const res = await axios.get("/lists", {
+    const res = await axios.get('http://localhost:8080/api/lists', {
       headers: {
-        token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+        token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).accessToken,
       },
     });
     dispatch(getListsSuccess(res.data));
@@ -29,9 +29,9 @@ export const getLists = async (dispatch) => {
 export const createList = async (list, dispatch) => {
   dispatch(createListStart());
   try {
-    const res = await axios.post("/lists", list, {
+    const res = await axios.post('http://localhost:8080/api/lists', list, {
       headers: {
-        token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+        token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).accessToken,
       },
     });
     dispatch(createListSuccess(res.data));
@@ -44,9 +44,9 @@ export const createList = async (list, dispatch) => {
 export const deleteList = async (id, dispatch) => {
   dispatch(deleteListStart());
   try {
-    await axios.delete("/lists/" + id, {
+    await axios.delete('http://localhost:8080/api/lists/' + id, {
       headers: {
-        token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+        token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).accessToken,
       },
     });
     dispatch(deleteListSuccess(id));

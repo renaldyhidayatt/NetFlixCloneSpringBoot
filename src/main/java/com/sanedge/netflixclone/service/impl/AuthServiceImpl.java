@@ -69,4 +69,5 @@ public class AuthServiceImpl {
 
         return MessageResponse.builder().message("Berhasil register").data(registerResponse).statusCode(200).build();
     }
+    // buatkan messageResponse
 }
