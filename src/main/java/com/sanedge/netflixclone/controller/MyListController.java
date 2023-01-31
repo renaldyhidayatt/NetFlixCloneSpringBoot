@@ -18,7 +18,7 @@ import com.sanedge.netflixclone.service.impl.MyListServiceImpl;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/mylist")
+@RequestMapping("/api/lists")
 public class MyListController {
 
     @Autowired

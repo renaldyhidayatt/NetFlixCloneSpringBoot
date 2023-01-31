@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,10 @@ import com.sanedge.netflixclone.dto.response.StatResponse;
 import com.sanedge.netflixclone.exception.NotFoundException;
 import com.sanedge.netflixclone.models.User;
 import com.sanedge.netflixclone.repository.UserRepository;
+import com.sanedge.netflixclone.service.UserService;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
@@ -34,6 +34,7 @@ public class UserServiceImpl {
     }
 
     @Transactional
+    @Override
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -43,6 +44,7 @@ public class UserServiceImpl {
 
     }
 
+    @Override
     public MessageResponse findAll() {
         List<User> myUsers = this.userRepository.findAll();
 
@@ -53,12 +55,14 @@ public class UserServiceImpl {
         return MessageResponse.builder().message("Berhasil mendapatkan data").data(myUsers).build();
     }
 
+    @Override
     public MessageResponse findById(Long id) {
         User user = this.userRepository.findById(id).orElseThrow(() -> new NotFoundException("not found user by id"));
 
         return MessageResponse.builder().message("Berhasil mendapatkan data").data(user).statusCode(200).build();
     }
 
+    @Override
     public List<StatResponse> statResponse() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -70,6 +74,7 @@ public class UserServiceImpl {
         return data;
     }
 
+    @Override
     public MessageResponse create(UserRequest userRequest) {
         User user = new User();
 
@@ -84,6 +89,7 @@ public class UserServiceImpl {
         return MessageResponse.builder().message("Berhasil mendapatkan data").data(user).statusCode(200).build();
     }
 
+    @Override
     public MessageResponse findByIdUpdate(Long id, UserRequest userRequest) {
         User user = this.userRepository.findById(id).orElseThrow(() -> new NotFoundException("not found user by id"));
         user.setUsername(userRequest.getUsername());
@@ -97,6 +103,7 @@ public class UserServiceImpl {
         return MessageResponse.builder().message("Berhasil mendapatkan data").data(user).statusCode(200).build();
     }
 
+    @Override
     public MessageResponse deleteById(Long id) {
         User user = this.userRepository.findById(id).orElseThrow(() -> new NotFoundException("not found user by id"));
 

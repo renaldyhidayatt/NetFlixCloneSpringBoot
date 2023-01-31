@@ -20,9 +20,10 @@ import com.sanedge.netflixclone.models.User;
 import com.sanedge.netflixclone.repository.UserRepository;
 import com.sanedge.netflixclone.security.JwtProvider;
 import com.sanedge.netflixclone.security.UserDetail;
+import com.sanedge.netflixclone.service.AuthService;
 
 @Service
-public class AuthServiceImpl {
+public class AuthServiceImpl implements AuthService {
     private AuthenticationManager authenticationManager;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
@@ -37,6 +38,7 @@ public class AuthServiceImpl {
         this.jwtProvider = jwtProvider;
     }
 
+    @Override
     public MessageResponse loginUser(AuthRequest authRequest) {
         Authentication authentication = this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
@@ -57,6 +59,7 @@ public class AuthServiceImpl {
         return MessageResponse.builder().message("Berhasil login").data(authResponse).statusCode(200).build();
     }
 
+    @Override
     public MessageResponse register(RegisterRequest authRequest) {
         User user = new User();
         user.setUsername(authRequest.getUsername());

@@ -10,9 +10,10 @@ import com.sanedge.netflixclone.exception.NotFoundException;
 import com.sanedge.netflixclone.models.Movie;
 import com.sanedge.netflixclone.models.User;
 import com.sanedge.netflixclone.repository.MovieRepository;
+import com.sanedge.netflixclone.service.MovieService;
 
 @Service
-public class MovieServiceImpl {
+public class MovieServiceImpl implements MovieService {
     private MovieRepository movieRepository;
     private UserServiceImpl userServiceImpl;
 
@@ -22,6 +23,7 @@ public class MovieServiceImpl {
         this.userServiceImpl = userServiceImpl;
     }
 
+    @Override
     public MessageResponse findAll() {
         User user = this.userServiceImpl.getCurrentUser();
         if (user.getIsAdmin()) {
@@ -32,6 +34,7 @@ public class MovieServiceImpl {
         return MessageResponse.builder().message("Bukan user admin").statusCode(400).build();
     }
 
+    @Override
     public MessageResponse createMovie(MovieRequest movieRequest) {
         User user = this.userServiceImpl.getCurrentUser();
         if (user.getIsAdmin()) {
@@ -59,6 +62,7 @@ public class MovieServiceImpl {
         return MessageResponse.builder().message("Bukan user admin").statusCode(400).build();
     }
 
+    @Override
     public MessageResponse updateMovie(Long id, MovieRequest movieRequest) {
         User user = this.userServiceImpl.getCurrentUser();
         if (user.getIsAdmin()) {
@@ -88,6 +92,7 @@ public class MovieServiceImpl {
         return MessageResponse.builder().message("Bukan user admin").statusCode(400).build();
     }
 
+    @Override
     public MessageResponse getRandom(String type) {
         User user = this.userServiceImpl.getCurrentUser();
         if (user.getIsAdmin()) {
@@ -107,6 +112,7 @@ public class MovieServiceImpl {
         return MessageResponse.builder().message("Bukan user admin").statusCode(400).build();
     }
 
+    @Override
     public MessageResponse findById(Long id) {
         User user = this.userServiceImpl.getCurrentUser();
         if (user.getIsAdmin()) {
@@ -119,6 +125,7 @@ public class MovieServiceImpl {
         return MessageResponse.builder().message("Bukan user admin").statusCode(400).build();
     }
 
+    @Override
     public MessageResponse deleteById(Long id) {
         User user = this.userServiceImpl.getCurrentUser();
         if (user.getIsAdmin()) {

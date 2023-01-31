@@ -11,9 +11,10 @@ import com.sanedge.netflixclone.dto.response.MessageResponse;
 import com.sanedge.netflixclone.models.MyList;
 import com.sanedge.netflixclone.models.User;
 import com.sanedge.netflixclone.repository.MyListRepository;
+import com.sanedge.netflixclone.service.MyListService;
 
 @Service
-public class MyListServiceImpl {
+public class MyListServiceImpl implements MyListService {
     private MyListRepository myListRepository;
     private UserServiceImpl userServiceImpl;
 
@@ -23,6 +24,7 @@ public class MyListServiceImpl {
         this.userServiceImpl = userServiceImpl;
     }
 
+    @Override
     public MessageResponse createMyList(MyListRequest myListRequest) {
         User user = this.userServiceImpl.getCurrentUser();
         if (user.getIsAdmin()) {
@@ -44,6 +46,7 @@ public class MyListServiceImpl {
         return MessageResponse.builder().message("Bukan admin").statusCode(400).build();
     }
 
+    @Override
     public MessageResponse deleteMyList(Long id) {
         User user = this.userServiceImpl.getCurrentUser();
 
@@ -55,6 +58,7 @@ public class MyListServiceImpl {
         return MessageResponse.builder().message("bukan admin").build();
     }
 
+    @Override
     public MessageResponse getList(String type, String genre) {
 
         User user = this.userServiceImpl.getCurrentUser();
